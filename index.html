@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>HTTP HEAD</title>
+		<meta name="author" content="anthony.destefano@gmail.com" />
+		<style>
+		h4         	{ margin-top:-20px;font-size:12px; font-weight:normal; }
+		input		{ margin-left:15px;}
+		body		{ font-family:helvetica; margin-left: 15px;}
+		pre			{ font-size:12px; color:black;margin-top:-2px;}
+		#wrapper	{ position: relative;}
+		#content 	{ margin: 50% auto; width: 480px; margin-top:70px;}
+		#scoreboard	{ float: right;margin-right:30px;margin-top:-60px;}
+		#version	{ font-size:8px;}
+		#list_c 	{ float:left;width:150px;height:200px;font-size:10px;padding-left:3px;border-right:1px dashed black;border-top:0px solid black;}
+		#list_w 	{ float:left;width:150px;height:200px;font-size:10px;border-top:0px solid black;padding-left:3px;}
+		#_score		{ margin-left:30px;}
+		#_turns		{ margin-left:40px;}
+		#response	{ margin-left:12px; width:400px; font-size:13px; }
+		#result		{ font-size:18px;font-weight:bold;height:30px;margin-top:-5px;margin-bottom:10px;width:250px;padding-bottom:5px;padding-left:5px;}
+		.correct 	{ color:green; border:1px dashed green;}
+		.wrong		{ color:red; border:1px solid red;}
+		</style>
+	</head>
+	<body>
+	<div id="wrapper">
+		<div id="content">
+			<h1>HTTP HEAD<span id="version"></span></h1>
+			<h4>A simple game with HTTP status response codes.</h4>
+			<span id="scoreboard">
+				<span id="_turns"><b>Turns: </b><span id="turns">1</span></span>
+				<span id="_score"><b>Score: </b><span id="score">0</span></span><br />
+			</span>
+		
+		<div id="game-screen" style="display:none">
+			<div id="result"></div>
+			<div style="height:70px;">
+				<form onsubmit="return false;">
+					<!-- Question: <response description shown> -->
+					<b>Response header:</b>  <span name="response" id="response">............</span><br />
+					<hr style="margin-left:0px;"/>
+					<!-- Answer: <player answer> -->
+					<div id="player_controls" style="display:none">
+						<b>HTTP status code?</b> <input type="text" maxlength="3" size="3" name="code" id="code" />
+						<input type="submit" id="btn_enter" value="Enter" onclick="G.btnEnter();return false"/>
+					</div>
+				</form>
+				
+			</div>
+			<hr style="margin-left:0px;margin-top:-5px;"/>
+			<!-- show which status responses player got right/wrong -->
+			<div id="receipt">		
+				<div id="list_c">Correct:</div>
+				<div id="list_w">Wrong:</div>
+			</div>	
+		</div>
+		<div id="play-screen" style="text-align:center"><br /><br /><br /><input type="button" value="     Play     " id="play"  /></div>
+		
+		
+		</div>
+	</div>
+		<script src="http://code.jquery.com/jquery.js"></script>
+		<script>
+		/**
+			Hypertext and associated transfer protocol (HTTP) is the foundation the 
+			internet runs on. Altough far from perfect, it is still endearing in its
+			own way. Nontheless, it is what the web runs on, so a simple flash-card
+			like study game would be a good idea. Maybe even get others interested
+			in learning more.
+			
+			What follows is a controller to drive a simple game
+				- display HTTP status response header without the status code
+				- Allow user to provide code and check their answer.
+				- keep track of:
+					- number of turns
+					- score
+					- list of correct answer list 
+					- list of incorrect answer list
+		
+		*/
+		// HTTP HEAD Game driver
+		var G = {
+			ver : "0.9",
+			DEBUG : true, // print to console
+			log : function (str) {
+				if (window.console && window.console.log && this.DEBUG) {
+					window.console.log(str);
+				}
+			},
+			score 		: 0,
+			HDRS		: [],
+			ans_c 		: [], // correct answer list
+			ans_w 		: [], // yup, wrong answer list
+			pointer 	: 0, // points to current status description
+			turns   	: 1, // number of player turns 
+			// grab ver # and show on page
+			setVer : function () {
+				jQuery('#version').html(this.ver);
+			},
+			
+			init : function () {
+				this.log("HTTP HEAD Game v" + this.ver);
+				// Cheaters are only cheating themselves
+				// I packed the answer list as to not make it obvious just trolling the source.
+				// the point of this page is not to help you feel clever or feel dumb,
+				// it is intended to help all of us keep sharp and have fun doing it.
+				// http://dean.edwards.name/packer/
+				eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('G.c[0]=a G.b("B","f");G.c[1]=a G.b("g","h i");G.c[2]=a G.b("j","k");G.c[3]=a G.b("l","d");G.c[4]=a G.b("n","o");G.c[5]=a G.b("p","q");G.c[6]=a G.b("r","s");G.c[7]=a G.b("t","u-v w");G.c[8]=a G.b("x","y e");G.c[9]=a G.b("z","A e");G.c[10]=a G.b("C","D e");G.c[11]=a G.b("E","F-H");G.c[12]=a G.b("I","J K");G.c[13]=a G.b("L","d");G.c[14]=a G.b("M","N O");G.c[15]=a G.b("P","d");G.c[16]=a G.b("Q","R S");G.c[17]=a G.b("T","U V");G.c[18]=a G.b("W","X");G.c[19]=a G.b("Y","Z 1a");G.c[1b]=a G.b("1c","1d m");',62,76,'||||||||||new|HTTP|HDRS|Unassigned|Content|Continue|101|Switching|Protocols|102|Processing|103|Modified|200|OK|201|Created|202|Accepted|203|Non|Authoritative|Information|204|No|205|Reset|100|206|Partial|207|Multi||Status|208|Already|Reported|209|226|IM|Used|227|300|Multiple|Choices|301|Moved|Permanently|302|Found|303|See|||||||||||Other|20|304|Not'.split('|'),0,{}))
+			
+				if (this.chkData()) {
+					this.setVer();
+					this.incoming();
+				} else {
+					alert("error loading headers");
+				}
+				
+				jQuery('#play').click(function() {
+					jQuery('#play').hide('fast');
+					jQuery('#game-screen').fadeIn('slow');
+				});
+			},
+			chkData : function () {
+				if (this.HDRS.length > 0) {
+					this.log("loading header data compete, " + this.HDRS.length + " records loaded");
+					return true;
+				} else {
+					this.log("loadData::error loading http header list");
+					return false;
+				}
+			},
+			// click the pointer forward, do work required 
+			// to keep things from breaking..
+			next : function() {
+				this.log("loading next response header");
+				jQuery('#code').attr('class', '');
+				var tmp = this.pointer + 1;
+				if (tmp < this.HDRS.length) {
+					this.pointer = tmp;
+					// 
+					jQuery('#response').html("HTTP/1.x  <b style='color:red'>???</b> " + this.HDRS[this.pointer].desc + " ");
+					
+					this.log("waiting for player answer..");
+				}
+			},
+			turn : function () {
+				this.turns = this.turns + 1;
+				jQuery("#turns").html(this.turns);
+			},
+			inList : function (item, list) {
+				var seen = 0;
+				for (var i=0; i < list.length; i++) {
+					if (list[i].code == item.code) {
+						seen = 1;
+						break;
+					}
+				}
+				return seen;
+			},
+			chkAnswer : function () {
+				this.log("chkAnswer...");
+				
+				jQuery('#result').attr('class', '');
+				// get button text value (text shown on button face)
+				var btn_value = jQuery('#btn_enter').val();
+				
+				// User provided an answer (btn txt reads 'Enter')
+				if (btn_value == "Enter") {
+					
+					//this.log("Click: enter");
+					var playerAnswer = jQuery('#code').val();
+					var gameAnswer = this.HDRS[this.pointer].code;
+					
+					this.log("P:" + playerAnswer);
+					this.log("G:" + gameAnswer);
+					
+					// format the actual answer "code" : "desc"
+					var out = '<pre>"' + this.HDRS[this.pointer].code + '":"' + this.HDRS[this.pointer].desc + '"</pre><br />'; 
+					jQuery('#result').html(""); // clear game answer message
+					// correct 
+					// -------
+					if (playerAnswer == gameAnswer) {
+						this.log("correct");
+						// check if we have already stored this answer in the correct and wrong lists
+						if (!this.inList(this.HDRS[this.pointer], this.ans_c)) {
+							if (!this.inList(this.HDRS[this.pointer], this.ans_w)) {
+								this.ans_c[this.ans_c.length] = this.HDRS[this.pointer];
+							}
+						}	
+						this.score = this.score + 5;
+						jQuery('#response').html("HTTP/1.x  <b style='color:green'>" + this.HDRS[this.pointer].code + "</b> " + this.HDRS[this.pointer].desc + " ");
+						// since player gave us a good answer
+						// let us change it to next to load the next response
+						jQuery('#btn_enter').val("Next");
+						jQuery('#result').html("CORRECT!"+out).addClass("correct").fadeIn("slow");
+					
+					// wrong
+					// -------
+					} else {
+						this.log("wrong");
+						//jQuery('#code').addClass("wrong");
+						if (!this.inList(this.HDRS[this.pointer], this.ans_w)) {
+							this.ans_w[this.ans_w.length] = this.HDRS[this.pointer];
+						}
+						jQuery('#response').html("HTTP/1.x  <b style='color:red'>" + this.HDRS[this.pointer].code + "</b> " + this.HDRS[this.pointer].desc + " ");
+						jQuery('#btn_enter').val("Next");
+						jQuery('#result').html("Incorrect!"+out).addClass("wrong").fadeIn("slow");
+					}
+					this.setScore();
+					
+				
+				// Clicked next (btn txt reads 'Next')	
+				} else {
+					// change the button text back to
+					// allow player to enter answer
+					//this.log("Click: next");
+					this.outgoing();
+					jQuery('#code').val("");
+					jQuery('#btn_enter').val("Enter");
+					
+					this.incoming();	
+					this.turn();
+				}
+			},
+			btnEnter : function () {
+				//this.log("btn click");
+				this.chkAnswer();
+			},
+			setScore : function () {
+				jQuery('#score').html(this.score);
+				jQuery('#correct').html(this.ans_c.length);
+				jQuery('#wrong').html(this.ans_w.length);
+				this.showResults(1);
+			},
+			showResults : function (show_items) {
+				this.log("show results...(receipt) ");
+				var out_c = "";
+				for (var i=0; i < this.ans_c.length; i++) {
+					out_c += '"' + this.ans_c[i].code + '":"' + this.ans_c[i].desc + '"<br />'; 
+				}
+				if (show_items) {
+					jQuery("#list_c").html("<b id='correct'>Correct:"+this.ans_c.length+"</b><br />"+out_c).show("slow");
+				} else {
+					jQuery("#list_c").html("<b id='correct'>Correct:"+this.ans_c.length+"</b><br />").show("slow");
+				}
+				
+				var out_w = "";
+				for (var i=0; i < this.ans_w.length; i++) {
+					out_w += '"' + this.ans_w[i].code + '":"' + this.ans_w[i].desc + '"<br />'; 
+				}
+				if (show_items) {
+					jQuery("#list_w").html("<b id='wrong'>Wrong:"+this.ans_w.length+"</b><br />"+out_w).show("slow");
+				} else {
+					jQuery("#list_w").html("<b id='wrong'>Wrong:"+this.ans_w.length+"</b><br />").show("slow");
+				}
+			},
+			// animate the next response header description
+			incoming : function () {
+				this.log("\nIncoming...");
+				// blink the response "stage"
+				jQuery('#response').css('color','red').html("...incoming...").delay(200).fadeOut().fadeIn('slow').delay(200).fadeOut().fadeIn('slow').delay(200).fadeOut();
+				//jQuery('#response').css('color','black');	
+				// set a delay, then fade in the next 
+				// response description along with
+				// player answer controls
+				window.setTimeout(function() {
+					G.next();
+					jQuery('#response').css('color','black').fadeIn("slow");
+					jQuery('#code').val("");
+					jQuery("#player_controls").fadeIn("slow");
+					jQuery('#code').focus();
+				
+				},3900);
+			},
+			// fade out last answer
+			outgoing : function () {
+				this.log("Outgoing");
+				jQuery('#player_controls').fadeOut("fast");
+				jQuery('#result').delay(100).html("");
+			},
+			// define an HTTP status response
+			// object constructor
+			HTTP : function (code, desc) {
+				this.code = code;
+				this.desc = desc;
+			}
+		}
+		window.onload = G.init();
+		</script>
+	</body>
+</html>
