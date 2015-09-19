@@ -26,7 +26,7 @@
 	<div id="wrapper">
 		<div id="content">
 			<h1>HTTP HEAD<span id="version"></span></h1>
-			<h4>A simple game with HTTP status response codes.</h4>
+			<h4>A simple game with HTTP status codes.</h4>
 			<span id="scoreboard">
 				<span id="_turns"><b>Turns: </b><span id="turns">1</span></span>
 				<span id="_score"><b>Score: </b><span id="score">0</span></span><br />
@@ -37,11 +37,11 @@
 			<div style="height:70px;">
 				<form onsubmit="return false;">
 					<!-- Question: <response description shown> -->
-					<b>Response header:</b>  <span name="response" id="response">............</span><br />
+					<b>Header:</b>  <span name="response" id="response">............</span><br />
 					<hr style="margin-left:0px;"/>
 					<!-- Answer: <player answer> -->
 					<div id="player_controls" style="display:none">
-						<b>HTTP status code?</b> <input type="text" maxlength="3" size="3" name="code" id="code" />
+						<b>Code? </b> <input type="text" maxlength="3" size="3" name="code" id="code" />
 						<input type="submit" id="btn_enter" value="Enter" onclick="G.btnEnter();return false"/>
 					</div>
 				</form>
@@ -62,12 +62,7 @@
 		<script src="http://code.jquery.com/jquery.js"></script>
 		<script>
 		/**
-			Hypertext and associated transfer protocol (HTTP) is the foundation the 
-			internet runs on. Altough far from perfect, it is still endearing in its
-			own way. Nontheless, it is what the web runs on, so a simple flash-card
-			like study game would be a good idea. Maybe even get others interested
-			in learning more.
-			
+					
 			What follows is a controller to drive a simple game
 				- display HTTP status response header without the status code
 				- Allow user to provide code and check their answer.
