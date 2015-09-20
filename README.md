@@ -9,7 +9,7 @@ So a simple flash-card like study game would be a good idea.
 
 <center>
 <a target="_blank" href="http://adestefa.com/HTTPCODES/">
-<img src="http://adestefa.com/HTTPCODES/httphead.png" border="0" />
+<img src="https://adestefa.com/HTTPCODES/httphead.png" border="0" />
 </a>
 </center>
 
