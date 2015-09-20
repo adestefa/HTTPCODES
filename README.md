@@ -8,4 +8,3 @@ Nontheless, it is what the web runs on, so a simple flash-card like study game w
 Maybe even get others interested in learning more.
 
 
-<center><a target="_blank" href="http://adestefa.com/HTTPCODES/"><img src="http://adestefa.com/HTTPCODES/httphead.png" border="0" /></a></center>
