@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>HTTP HEAD</title>
+		<title>HTTP CODES</title>
 		<meta name="author" content="anthony.destefano@gmail.com" />
 		<style>
 		h4         	{ margin-top:-20px;font-size:12px; font-weight:normal; }
@@ -25,7 +25,7 @@
 	<body>
 	<div id="wrapper">
 		<div id="content">
-			<h1>HTTP HEAD<span id="version"></span></h1>
+			<h1>HTTP CODES<span id="version"></span></h1>
 			<h4>A simple game with HTTP status codes.</h4>
 			<span id="scoreboard">
 				<span id="_turns"><b>Turns: </b><span id="turns">1</span></span>
@@ -95,13 +95,62 @@
 			
 			init : function () {
 				this.log("HTTP HEAD Game v" + this.ver);
-				// Cheaters are only cheating themselves
-				// I packed the answer list as to not make it obvious just trolling the source.
-				// the point of this page is not to help you feel clever or feel dumb,
-				// it is intended to help all of us keep sharp and have fun doing it.
-				// http://dean.edwards.name/packer/
-				eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('G.c[0]=a G.b("B","f");G.c[1]=a G.b("g","h i");G.c[2]=a G.b("j","k");G.c[3]=a G.b("l","d");G.c[4]=a G.b("n","o");G.c[5]=a G.b("p","q");G.c[6]=a G.b("r","s");G.c[7]=a G.b("t","u-v w");G.c[8]=a G.b("x","y e");G.c[9]=a G.b("z","A e");G.c[10]=a G.b("C","D e");G.c[11]=a G.b("E","F-H");G.c[12]=a G.b("I","J K");G.c[13]=a G.b("L","d");G.c[14]=a G.b("M","N O");G.c[15]=a G.b("P","d");G.c[16]=a G.b("Q","R S");G.c[17]=a G.b("T","U V");G.c[18]=a G.b("W","X");G.c[19]=a G.b("Y","Z 1a");G.c[1b]=a G.b("1c","1d m");',62,76,'||||||||||new|HTTP|HDRS|Unassigned|Content|Continue|101|Switching|Protocols|102|Processing|103|Modified|200|OK|201|Created|202|Accepted|203|Non|Authoritative|Information|204|No|205|Reset|100|206|Partial|207|Multi||Status|208|Already|Reported|209|226|IM|Used|227|300|Multiple|Choices|301|Moved|Permanently|302|Found|303|See|||||||||||Other|20|304|Not'.split('|'),0,{}))
-			
+				
+				G.HDRS[0] = new G.HTTP("100", "Continue", "RFC7231, Section 6.2.1", "http://www.iana.org/go/rfc7231");
+				G.HDRS[1] = new G.HTTP("101", "Switching Protocols", "RFC7231, Section 6.2.2", "http://www.iana.org/go/rfc7231");
+				G.HDRS[2] = new G.HTTP("102", "Processing", "RFC2518", "http://www.iana.org/go/rfc2518");
+				G.HDRS[3] = new G.HTTP("103", "Unassigned", "", "");
+				
+				G.HDRS[4] = new G.HTTP("200", "OK", "RFC7231, Section 6.3.1", "http://www.iana.org/go/rfc7231");
+				G.HDRS[5] = new G.HTTP("201", "Created", "RFC7231, Section 6.3.2", "http://www.iana.org/go/rfc7231");
+				G.HDRS[6] = new G.HTTP("202", "Accepted", "RFC7231, Section 6.3.3", "http://www.iana.org/go/rfc7231");
+				G.HDRS[7] = new G.HTTP("203", "Non-Authoritative Information", "RFC7231, Section 6.3.4", "http://www.iana.org/go/rfc7231");
+				G.HDRS[8] = new G.HTTP("204", "No Content", "RFC7231, Section 6.3.5", "http://www.iana.org/go/rfc7231");
+				G.HDRS[9] = new G.HTTP("205", "Reset Content", "RFC7231, Section 6.3.6", "http://www.iana.org/go/rfc7231");
+				G.HDRS[10] = new G.HTTP("206", "Partial Content", "RFC7233, Section 4.1", "http://www.iana.org/go/rfc7233");
+				G.HDRS[11] = new G.HTTP("207", "Multi-Status", "RFC4918", "http://www.iana.org/go/rfc4918");
+				G.HDRS[12] = new G.HTTP("208", "Already Reported", "RFC5842", "http://www.iana.org/go/rfc5842");
+				G.HDRS[13] = new G.HTTP("209", "Unassigned", "", "");
+				G.HDRS[14] = new G.HTTP("226", "IM Used", "RFC3229", "http://www.iana.org/go/rfc3229");
+				G.HDRS[15] = new G.HTTP("227", "Unassigned", "", "");
+				
+				G.HDRS[16] = new G.HTTP("300", "Multiple Choices", "RFC7231, Section 6.4.1", "http://www.iana.org/go/rfc7231");
+				G.HDRS[17] = new G.HTTP("301", "Moved Permanently", "RFC7231, Section 6.4.2", "http://www.iana.org/go/rfc7231");
+				G.HDRS[18] = new G.HTTP("302", "Found", "RFC7231, Section 6.4.3", "http://www.iana.org/go/rfc7231");
+				G.HDRS[19] = new G.HTTP("303", "See Other", "RFC7231, Section 6.4.4", "http://www.iana.org/go/rfc7231");
+				G.HDRS[20] = new G.HTTP("304", "Not Modified", "RFC7232, Section 4.1", "http://www.iana.org/go/rfc7232");
+				G.HDRS[21] = new G.HTTP("305", "Use Proxy", "RFC7231, Section 6.4.5", "http://www.iana.org/go/rfc7231");
+				G.HDRS[22] = new G.HTTP("306", "(Unused)", "RFC7231, Section 6.4.6", "http://www.iana.org/go/rfc7231");
+				G.HDRS[23] = new G.HTTP("307", "Temporary Redirect", "RFC7231, Section 6.4.7", "http://www.iana.org/go/rfc7231");
+				G.HDRS[24] = new G.HTTP("308", "Permanent Redirect", "RFC7538", "http://www.iana.org/go/rfc7538");
+				G.HDRS[25] = new G.HTTP("309", "Unassigned", "", "");
+
+				G.HDRS[26] = new G.HTTP("400", "Bad Request", "RFC7231, Section 6.5.1", "http://www.iana.org/go/rfc7231");
+				G.HDRS[28] = new G.HTTP("401", "Unauthorized", "RFC7235, Section 3.1", "http://www.iana.org/go/rfc7235");
+				G.HDRS[29] = new G.HTTP("402", "Payment Required", "RFC7231, Section 6.5.2", "http://www.iana.org/go/rfc7231");
+				G.HDRS[30] = new G.HTTP("403", "Forbidden", "RFC7231, Section 6.5.3", "http://www.iana.org/go/rfc7231");
+				G.HDRS[31] = new G.HTTP("404", "Not Found", "RFC7231, Section 6.5.4", "http://www.iana.org/go/rfc7231");
+				G.HDRS[32] = new G.HTTP("405", "Method Not Allowed", "RFC7231, Section 6.5.5", "http://www.iana.org/go/rfc7231");
+				G.HDRS[33] = new G.HTTP("406", "Not Acceptable", "RFC7231, Section 6.5.6", "http://www.iana.org/go/rfc7231");
+				G.HDRS[34] = new G.HTTP("407", "Proxy Authentication Required", "RFC7235, Section 3.2", "http://www.iana.org/go/rfc7235");
+				G.HDRS[35] = new G.HTTP("408", "Request Timeout", "RFC7231, Section 6.5.7", "http://www.iana.org/go/rfc7231");
+				G.HDRS[36] = new G.HTTP("409", "Conflict", "RFC7231, Section 6.5.8", "http://www.iana.org/go/rfc7231");
+				G.HDRS[37] = new G.HTTP("410", "Gone", "RFC7231, Section 6.5.9", "http://www.iana.org/go/rfc7231");
+				G.HDRS[38] = new G.HTTP("411", "Length Required", "RFC7231, Section 6.5.10", "http://www.iana.org/go/rfc7231");
+				G.HDRS[39] = new G.HTTP("412", "Precondition Failed", "RFC7232, Section 4.2", "http://www.iana.org/go/rfc7232");
+				G.HDRS[40] = new G.HTTP("413", "Payload Too Large", "RFC7231, Section 6.5.11", "http://www.iana.org/go/rfc7231");
+				
+				G.HDRS[41] = new G.HTTP("414", "URI Too Long", "RFC7231, Section 6.5.12", "http://www.iana.org/go/rfc7231");
+				G.HDRS[42] = new G.HTTP("415", "Unsupported Media Type", "RFC7231, Section 6.5.13", "http://www.iana.org/go/rfc7231");
+				G.HDRS[43] = new G.HTTP("416", "Range Not Satisfiable", "RFC7233, Section 4.4", "http://www.iana.org/go/rfc7233");
+				G.HDRS[44] = new G.HTTP("417", "Expectation Failed", "RFC7231, Section 6.5.14", "http://www.iana.org/go/rfc7231");
+				G.HDRS[45] = new G.HTTP("418", "Unassigned", "h", "h");
+				G.HDRS[46] = new G.HTTP("421", "Misdirected Request", "RFC7540, Section 9.1.2", "http://www.iana.org/go/rfc7540");
+				
+				
+				
+				
+				
 				if (this.chkData()) {
 					this.setVer();
 					this.incoming();
@@ -274,9 +323,11 @@
 			},
 			// define an HTTP status response
 			// object constructor
-			HTTP : function (code, desc) {
+			HTTP : function (code, desc, ref, reflink) {
 				this.code = code;
 				this.desc = desc;
+				this.ref = ref;
+				this.reflink = reflink;
 			}
 		}
 		window.onload = G.init();
