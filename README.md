@@ -7,4 +7,5 @@ Hypertext and associated transfer protocol (HTTP) is the foundation the internet
 So a simple flash-card like study game would be a good idea. 
 
 
-[![Play](http://adestefa.com/HTTPCODES/httpcodes.png)](http://adestefa.com/HTTPCODES/) 
+Click to play:
+[![Play](http://adestefa.com/HTTPCODES/httpcodes.png)](http://172.104.210.69:3000) 
